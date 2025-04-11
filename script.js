@@ -158,6 +158,7 @@ const cmykOutput = document.getElementById('cmyk-output');
 // State
 let currentColor = { r: 255, g: 255, b: 255, a: 1 };
 let currentHsl = { h: 0, s: 50, l: 50 };
+let isFirstInteraction = true;
 
 // Localization Keys
 const translations = {
@@ -448,7 +449,7 @@ const debouncedUpdate = debounce((input) => {
 		const lang = languageSwitcher.value;
 		alert(translations[lang].invalidColor);
 	}
-}, 300);
+}, 3000);
 
 colorInput.addEventListener('input', (e) => {
 	debouncedUpdate(e.target.value.trim());
@@ -585,3 +586,21 @@ function updateCursorPosition(e) {
 	updateColor({ r: rgb.r, g: rgb.g, b: rgb.b, a: currentColor.a });
 	drawCursor();
 }
+
+// при запуске приложения <canvas id="palette"> по умолчанию недоступен, пока пользователь не выберет цвет в поле <input id="color-input">
+// Обработчик наведения
+palette.addEventListener('mouseover', () => {
+	if (isFirstInteraction) {
+		colorInput.value = 'green';
+		updateColor({ r: 0, g: 128, b: 0, a: 1 });
+		isFirstInteraction = false;
+	}
+});
+//Альтернатива: срабатывание при клике
+palette.addEventListener('click', () => {
+	if (isFirstInteraction) {
+		colorInput.value = 'green';
+		updateColor({ r: 0, g: 128, b: 0, a: 1 });
+		isFirstInteraction = false;
+	}
+});
