@@ -1,4 +1,10 @@
 /* General Reset */
+html,
+body {
+	margin: 0;
+	padding: 0;
+	/* height: 100%; */
+}
 * {
 	margin: 0;
 	padding: 0;
@@ -7,38 +13,33 @@
 
 body {
 	font-family: Arial, sans-serif;
-	background-color: #f4f4f9;
+	background: linear-gradient(135deg, #e0f7fa, #80deea); /* Светлый градиент */
 	color: #333;
-	transition: background-color 0.3s, color 0.3s;
+	transition: background 0.3s, color 0.3s;
+	max-height: 100svh;
+	max-width: 100svw;
+	min-height: 98svh;
+	min-width: 98svw;
 }
 
 body.dark {
-	background-color: #121212;
+	background: linear-gradient(135deg, #1c1c1c, #333333); /* Тёмный градиент */
 	color: #ffffff;
-}
-
-body.dark .app {
-	background: rgba(30, 30, 30, 0.9);
-}
-
-body.dark button {
-	background-color: #0056b3;
-}
-
-body.dark input,
-body.dark select {
-	background-color: #333;
-	color: #fff;
-	border-color: #555;
 }
 
 .app {
 	max-width: 800px;
 	margin: 20px auto;
 	padding: 20px;
-	border-radius: 8px;
-	background: rgba(255, 255, 255, 0.9);
-	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+	border-radius: 12px;
+	background: rgba(255, 255, 255, 0.2); /* Полупрозрачный фон */
+	backdrop-filter: blur(10px); /* Эффект стекла */
+	box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+body.dark .app {
+	background: rgba(30, 30, 30, 0.4); /* Полупрозрачный тёмный фон */
+	box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
 }
 
 .header {
@@ -48,19 +49,98 @@ body.dark select {
 	margin-bottom: 20px;
 }
 
-.controls button,
-.controls select {
-	margin-left: 10px;
-	padding: 5px 10px;
-	border: none;
-	border-radius: 4px;
-	cursor: pointer;
-	transition: background-color 0.3s;
+/* Стилизация инпутов и селектов */
+input,
+select {
+	padding: 10px;
+	border-radius: 8px;
+	border: 1px solid #ccc;
+	background-color: #fff;
+	transition: border-color 0.3s, box-shadow 0.3s;
 }
 
-.controls select {
-	background-color: #fff;
-	border: 1px solid #ccc;
+input:focus,
+select:focus {
+	border-color: #007bff;
+	box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+	outline: none;
+}
+
+body.dark input,
+body.dark select {
+	background-color: #444;
+	border-color: #666;
+	color: #fff;
+}
+
+body.dark input:focus,
+body.dark select:focus {
+	border-color: #80bdff;
+	box-shadow: 0 0 5px rgba(128, 189, 255, 0.5);
+}
+
+/* Стилизация кнопок */
+button {
+	background-color: #007bff;
+	color: white;
+	border: none;
+	padding: 8px 16px;
+	border-radius: 8px;
+	cursor: pointer;
+	transition: background-color 0.3s, box-shadow 0.3s;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+button:hover {
+	background-color: #0056b3;
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+button:focus {
+	outline: none;
+	box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+body.dark button {
+	background-color: #0056b3;
+}
+
+body.dark button:hover {
+	background-color: #003f7f;
+}
+
+/* Палитра */
+#palette {
+	width: 100%;
+	height: 200px;
+	border-radius: 8px;
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+	cursor: crosshair;
+}
+
+body.dark #palette {
+	box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* Предпросмотр цвета */
+#selected-color {
+	width: 100px;
+	height: 100px;
+	border-radius: 50%; /* Круглая форма */
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+	transition: box-shadow 0.3s;
+}
+
+#selected-color:hover {
+	box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+body.dark #selected-color {
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+body.dark #selected-color:hover {
+	box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
 }
 
 .color-picker {
@@ -71,20 +151,6 @@ body.dark select {
 	width: 100%;
 	padding: 8px;
 	margin-bottom: 10px;
-	border: 1px solid #ccc;
-	border-radius: 4px;
-}
-
-#palette {
-	width: 100%;
-	height: 200px;
-	border: 1px solid #ccc;
-	border-radius: 4px;
-	cursor: crosshair;
-}
-
-#palette:focus {
-	outline: 2px solid #007bff;
 }
 
 .alpha-slider {
@@ -107,13 +173,6 @@ body.dark select {
 	justify-content: center;
 }
 
-#selected-color {
-	width: 100px;
-	height: 100px;
-	border: 1px solid #ccc;
-	border-radius: 4px;
-}
-
 .conversion-results ul {
 	list-style: none;
 }
@@ -130,28 +189,7 @@ body.dark select {
 
 .conversion-results input {
 	flex: 1;
-	padding: 5px;
-	border: 1px solid #ccc;
-	border-radius: 4px;
 	margin-right: 10px;
-}
-
-button {
-	background-color: #007bff;
-	color: white;
-	border: none;
-	padding: 5px 10px;
-	border-radius: 4px;
-	cursor: pointer;
-	transition: background-color 0.3s;
-}
-
-button:hover {
-	background-color: #0056b3;
-}
-
-button:focus {
-	outline: 2px solid #0056b3;
 }
 
 .copy-btn {
