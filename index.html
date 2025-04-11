@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>ColorFlow</title>
+		<link rel="stylesheet" href="styles.css" />
+	</head>
+	<body>
+		<div class="app" id="app">
+			<!-- Header -->
+			<header class="header">
+				<h1>ColorFlow</h1>
+				<div class="controls">
+					<button id="theme-toggle">☀️</button>
+					<select id="language-switcher">
+						<option value="en">🇬🇧 EN</option>
+						<option value="ru">🇷🇺 RU</option>
+					</select>
+				</div>
+			</header>
+
+			<!-- Color Picker -->
+			<section class="color-picker">
+				<input type="text" id="color-input" placeholder="Enter color (e.g., #FF0000 or 'red')" />
+				<canvas id="palette"></canvas>
+				<div class="alpha-slider">
+					<label for="alpha">Alpha:</label>
+					<input type="range" id="alpha" min="0" max="1" step="0.01" value="1" />
+				</div>
+			</section>
+
+			<!-- Color Preview -->
+			<section class="color-preview">
+				<div id="selected-color" style="background-color: #ffffff"></div>
+			</section>
+
+			<!-- Conversion Results -->
+			<section class="conversion-results">
+				<h2>Converted Colors</h2>
+				<ul>
+					<li>
+						<strong>HEX:</strong> <span id="hex-output">#FFFFFF</span>
+						<button onclick="copyToClipboard('hex-output')">Copy</button>
+					</li>
+					<li>
+						<strong>RGB:</strong> <span id="rgb-output">rgb(255, 255, 255)</span>
+						<button onclick="copyToClipboard('rgb-output')">Copy</button>
+					</li>
+					<li>
+						<strong>HSL:</strong> <span id="hsl-output">hsl(0, 0%, 100%)</span>
+						<button onclick="copyToClipboard('hsl-output')">Copy</button>
+					</li>
+					<li>
+						<strong>CMYK:</strong> <span id="cmyk-output">cmyk(0%, 0%, 0%, 0%)</span>
+						<button onclick="copyToClipboard('cmyk-output')">Copy</button>
+					</li>
+				</ul>
+			</section>
+		</div>
+
+		<script src="script.js"></script>
+	</body>
+</html>
