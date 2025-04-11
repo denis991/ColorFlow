@@ -11,11 +11,19 @@
 			<!-- Header -->
 			<header class="header">
 				<h1 data-i18n="title">ColorFlow</h1>
+				<!-- Переключатель для двух языков: нажатие меняет язык между en и ru -->
+				<!-- <div class="controls">
+					<button id="theme-toggle" aria-label="Toggle theme">☀️</button>
+					<button id="language-switcher" aria-label="Toggle language" data-lang="en">🇬🇧 EN</button>
+				</div> -->
+				<!-- v2 + es-->
+				<!-- Возвращаем select для трёх языков -->
 				<div class="controls">
 					<button id="theme-toggle" aria-label="Toggle theme">☀️</button>
 					<select id="language-switcher" aria-label="Select language">
 						<option value="en">🇬🇧 EN</option>
 						<option value="ru">🇷🇺 RU</option>
+						<option value="es">🇪🇸 ES</option>
 					</select>
 				</div>
 			</header>
@@ -61,7 +69,7 @@
 				<ul>
 					<li>
 						<strong>HEX:</strong>
-						<input id="hex-output" value="#FFFFFF" readonly aria-label="HEX color value" />
+						<input id="hex-output" value="#FFFFFF" aria-label="HEX color value" />
 						<button class="copy-btn" data-format="hex-output" data-i18n="copy" tabindex="0">
 							Copy
 						</button>
@@ -69,12 +77,7 @@
 					</li>
 					<li>
 						<strong>RGB:</strong>
-						<input
-							id="rgb-output"
-							value="rgb(255, 255, 255)"
-							readonly
-							aria-label="RGB color value"
-						/>
+						<input id="rgb-output" value="rgb(255, 255, 255)" aria-label="RGB color value" />
 						<button class="copy-btn" data-format="rgb-output" data-i18n="copy" tabindex="0">
 							Copy
 						</button>
@@ -82,7 +85,7 @@
 					</li>
 					<li>
 						<strong>HSL:</strong>
-						<input id="hsl-output" value="hsl(0, 0%, 100%)" readonly aria-label="HSL color value" />
+						<input id="hsl-output" value="hsl(0, 0%, 100%)" aria-label="HSL color value" />
 						<button class="copy-btn" data-format="hsl-output" data-i18n="copy" tabindex="0">
 							Copy
 						</button>
@@ -90,12 +93,7 @@
 					</li>
 					<li>
 						<strong>CMYK:</strong>
-						<input
-							id="cmyk-output"
-							value="cmyk(0%, 0%, 0%, 0%)"
-							readonly
-							aria-label="CMYK color value"
-						/>
+						<input id="cmyk-output" value="cmyk(0%, 0%, 0%, 0%)" aria-label="CMYK color value" />
 						<button class="copy-btn" data-format="cmyk-output" data-i18n="copy" tabindex="0">
 							Copy
 						</button>

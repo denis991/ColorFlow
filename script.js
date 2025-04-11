@@ -157,7 +157,7 @@ const cmykOutput = document.getElementById('cmyk-output');
 
 // State
 let currentColor = { r: 255, g: 255, b: 255, a: 1 };
-let currentHsl = { h: 0, s: 0, l: 100 };
+let currentHsl = { h: 0, s: 50, l: 50 };
 
 // Localization Keys
 const translations = {
@@ -180,6 +180,16 @@ const translations = {
 		convertedColors: 'Преобразованные цвета',
 		invalidColor: 'Неверный формат цвета',
 		copied: 'Скопировано в буфер обмена!',
+	},
+	es: {
+		title: 'ColorFlow',
+		placeholder: "Introduce un color (por ejemplo, #FF0000 o 'rojo')",
+		alphaLabel: 'Transparencia:',
+		copy: 'Copiar',
+		update: 'Actualizar',
+		convertedColors: 'Colores Convertidos',
+		invalidColor: 'Formato de color inválido',
+		copied: '¡Copiado al portapapeles!',
 	},
 };
 
@@ -256,6 +266,9 @@ function updateColor(color) {
 	hslOutput.value = `hsla(${h}, ${s}%, ${l}%, ${currentColor.a.toFixed(2)})`;
 	const { c, m, y, k } = rgbToCmyk(currentColor.r, currentColor.g, currentColor.b);
 	cmykOutput.value = `cmyk(${c}%, ${m}%, ${y}%, ${k}%)`;
+
+	// Update cursor position on palette
+	drawCursor();
 }
 
 // Update text based on language
@@ -301,7 +314,7 @@ function initPalette() {
 		}
 	}
 
-	// Draw cursor
+	// Всегда рисуем курсор при инициализации
 	drawCursor();
 }
 
@@ -310,14 +323,60 @@ function drawCursor() {
 	const x = (currentHsl.h / 360) * palette.width;
 	const y = (1 - currentHsl.s / 100) * palette.height;
 
-	// Clear previous cursor
-	ctx.clearRect(x - 10, y - 10, 20, 20);
+	// Redraw the entire gradient to clear previous cursor
+	for (let px = 0; px < palette.width; px++) {
+		for (let py = 0; py < palette.height; py++) {
+			const h = (px / palette.width) * 360;
+			const s = (1 - py / palette.height) * 100;
+			const l = 50;
+			ctx.fillStyle = `hsl(${h}, ${s}%, ${l}%)`;
+			ctx.fillRect(px, py, 1, 1);
+		}
+	}
 
-	// Draw new cursor
+	// Увеличиваем масштаб прицела в 2 раза
+	const scale = 2;
+	const outerRadius = 12 * scale; // Внешний радиус (было 12, теперь 24)
+	const innerRadius = 8 * scale; // Внутренний радиус (было 8, теперь 16)
+	const barLength = 3 * scale; // Длина баров за внешним кольцом (было 3, теперь 6)
+	const barThickness = 2 * scale; // Толщина баров (было 5, теперь 10)
+
+	// Рисуем внешнее кольцо (3px толщина)
 	ctx.beginPath();
-	ctx.arc(x, y, 8, 0, Math.PI * 2);
-	ctx.strokeStyle = currentHsl.l > 50 ? '#000' : '#fff';
-	ctx.lineWidth = 2;
+	ctx.arc(x, y, outerRadius, 0, Math.PI * 2);
+	ctx.strokeStyle = '#fff'; // Bluish gray
+	ctx.lineWidth = 1.5 * scale;
+	ctx.stroke();
+
+	// Рисуем внутреннее кольцо (2px толщина)
+	ctx.beginPath();
+	ctx.arc(x, y, innerRadius, 0, Math.PI * 2);
+	ctx.strokeStyle = '#fff';
+	ctx.lineWidth = 1 * scale;
+	ctx.stroke();
+
+	// Рисуем центральный крест (3px толщина)
+	ctx.beginPath();
+	ctx.moveTo(x - innerRadius, y); // Горизонтальная линия (лево)
+	ctx.lineTo(x + innerRadius, y); // Горизонтальная линия (право)
+	ctx.moveTo(x, y - innerRadius); // Вертикальная линия (верх)
+	ctx.lineTo(x, y + innerRadius); // Вертикальная линия (низ)
+	ctx.strokeStyle = '#fff'; // Steel blue-gray
+	ctx.lineWidth = 0.7 * scale;
+	ctx.stroke();
+
+	// Рисуем бары, выходящие за внешнее кольцо (5px толщина)
+	ctx.beginPath();
+	ctx.moveTo(x - outerRadius - barLength, y); // Лево
+	ctx.lineTo(x - innerRadius, y);
+	ctx.moveTo(x + innerRadius, y); // Право
+	ctx.lineTo(x + outerRadius + barLength, y);
+	ctx.moveTo(x, y - outerRadius - barLength); // Верх
+	ctx.lineTo(x, y - innerRadius);
+	ctx.moveTo(x, y + innerRadius); // Низ
+	ctx.lineTo(x, y + outerRadius + barLength);
+	ctx.strokeStyle = '#35464d'; // Dark slate-gray
+	ctx.lineWidth = barThickness;
 	ctx.stroke();
 }
 
@@ -405,29 +464,42 @@ alphaSlider.addEventListener('input', (e) => {
 function updateFromInput(format) {
 	try {
 		let newColor;
+		const inputValue = document.getElementById(`${format}-output`).value.trim();
 		switch (format) {
 			case 'hex':
-				newColor = hexToRgb(document.getElementById('hex-output').value);
+				newColor = hexToRgb(inputValue);
 				break;
 			case 'rgb':
-				newColor = parseColor(document.getElementById('rgb-output').value);
-				newColor = { r: newColor[0], g: newColor[1], b: newColor[2], a: newColor[3] };
+				const rgbMatches = inputValue.match(/\d+(\.\d+)?/g);
+				if (!rgbMatches || rgbMatches.length < 3) throw new Error('Invalid RGB format');
+				newColor = {
+					r: Number(rgbMatches[0]),
+					g: Number(rgbMatches[1]),
+					b: Number(rgbMatches[2]),
+					a: rgbMatches[3] !== undefined ? Number(rgbMatches[3]) : 1,
+				};
 				break;
 			case 'hsl':
-				const hsl = document
-					.getElementById('hsl-output')
-					.value.match(/\d+(\.\d+)?/g)
-					.map(Number);
-				const rgb = hslToRgb(hsl[0], hsl[1], hsl[2]);
-				newColor = { r: rgb.r, g: rgb.g, b: rgb.b, a: hsl[3] || 1 };
+				const hslMatches = inputValue.match(/\d+(\.\d+)?/g);
+				if (!hslMatches || hslMatches.length < 3) throw new Error('Invalid HSL format');
+				const rgbFromHsl = hslToRgb(hslMatches[0], hslMatches[1], hslMatches[2]);
+				newColor = {
+					r: rgbFromHsl.r,
+					g: rgbFromHsl.g,
+					b: rgbFromHsl.b,
+					a: hslMatches[3] !== undefined ? Number(hslMatches[3]) : 1,
+				};
 				break;
 			case 'cmyk':
-				const cmyk = document
-					.getElementById('cmyk-output')
-					.value.match(/\d+(\.\d+)?/g)
-					.map(Number);
-				const rgbCmyk = cmykToRgb(cmyk[0], cmyk[1], cmyk[2], cmyk[3]);
-				newColor = { r: rgbCmyk.r, g: rgbCmyk.g, b: rgbCmyk.b, a: 1 };
+				const cmykMatches = inputValue.match(/\d+(\.\d+)?/g);
+				if (!cmykMatches || cmykMatches.length !== 4) throw new Error('Invalid CMYK format');
+				const rgbFromCmyk = cmykToRgb(
+					cmykMatches[0],
+					cmykMatches[1],
+					cmykMatches[2],
+					cmykMatches[3]
+				);
+				newColor = { r: rgbFromCmyk.r, g: rgbFromCmyk.g, b: rgbFromCmyk.b, a: 1 };
 				break;
 		}
 		updateColor(newColor);
@@ -468,3 +540,48 @@ document.addEventListener('DOMContentLoaded', () => {
 	// Initial color update
 	updateColor(currentColor);
 });
+//больше интерактивности
+// Добавляем флаг для отслеживания перетаскивания
+let isDragging = false;
+
+// Обработчик начала перетаскивания
+palette.addEventListener('mousedown', (e) => {
+	isDragging = true;
+	updateCursorPosition(e);
+});
+
+// Обработчик перемещения мыши
+palette.addEventListener('mousemove', (e) => {
+	if (isDragging) {
+		updateCursorPosition(e);
+	}
+});
+
+// Обработчик окончания перетаскивания
+palette.addEventListener('mouseup', () => {
+	isDragging = false;
+});
+
+// Обработчик выхода мыши за пределы палитры
+palette.addEventListener('mouseleave', () => {
+	isDragging = false;
+});
+
+// Удаляем старый обработчик клика, так как он теперь не нужен
+// palette.addEventListener('click', ...);
+
+// Функция обновления позиции курсора
+function updateCursorPosition(e) {
+	const rect = palette.getBoundingClientRect();
+	const x = e.clientX - rect.left;
+	const y = e.clientY - rect.top;
+
+	const h = (x / palette.width) * 360;
+	const s = (1 - y / palette.height) * 100;
+	const l = currentHsl.l; // Сохраняем текущую яркость
+	currentHsl = { h, s, l };
+
+	const rgb = hslToRgb(h, s, l);
+	updateColor({ r: rgb.r, g: rgb.g, b: rgb.b, a: currentColor.a });
+	drawCursor();
+}
