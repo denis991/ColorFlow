@@ -7,13 +7,13 @@
 		<link rel="stylesheet" href="styles.css" />
 	</head>
 	<body>
-		<div class="app" id="app">
+		<main class="app" id="app">
 			<!-- Header -->
 			<header class="header">
-				<h1>ColorFlow</h1>
+				<h1 data-i18n="title">ColorFlow</h1>
 				<div class="controls">
-					<button id="theme-toggle">☀️</button>
-					<select id="language-switcher">
+					<button id="theme-toggle" aria-label="Toggle theme">☀️</button>
+					<select id="language-switcher" aria-label="Select language">
 						<option value="en">🇬🇧 EN</option>
 						<option value="ru">🇷🇺 RU</option>
 					</select>
@@ -22,42 +22,90 @@
 
 			<!-- Color Picker -->
 			<section class="color-picker">
-				<input type="text" id="color-input" placeholder="Enter color (e.g., #FF0000 or 'red')" />
-				<canvas id="palette"></canvas>
+				<input
+					type="text"
+					id="color-input"
+					placeholder="Enter color (e.g., #FF0000 or 'red')"
+					data-i18n-placeholder="placeholder"
+					aria-label="Enter color"
+					tabindex="0"
+				/>
+				<canvas id="palette" tabindex="0" aria-label="Color palette"></canvas>
 				<div class="alpha-slider">
-					<label for="alpha">Alpha:</label>
-					<input type="range" id="alpha" min="0" max="1" step="0.01" value="1" />
+					<label for="alpha" data-i18n="alphaLabel">Alpha:</label>
+					<input
+						type="range"
+						id="alpha"
+						min="0"
+						max="1"
+						step="0.01"
+						value="1"
+						aria-label="Adjust transparency"
+						tabindex="0"
+					/>
 				</div>
 			</section>
 
 			<!-- Color Preview -->
 			<section class="color-preview">
-				<div id="selected-color" style="background-color: #ffffff"></div>
+				<div
+					id="selected-color"
+					style="background-color: #ffffff"
+					aria-label="Selected color preview"
+				></div>
 			</section>
 
 			<!-- Conversion Results -->
 			<section class="conversion-results">
-				<h2>Converted Colors</h2>
+				<h2 data-i18n="convertedColors">Converted Colors</h2>
 				<ul>
 					<li>
-						<strong>HEX:</strong> <span id="hex-output">#FFFFFF</span>
-						<button onclick="copyToClipboard('hex-output')">Copy</button>
+						<strong>HEX:</strong>
+						<input id="hex-output" value="#FFFFFF" readonly aria-label="HEX color value" />
+						<button class="copy-btn" data-format="hex-output" data-i18n="copy" tabindex="0">
+							Copy
+						</button>
+						<button onclick="updateFromInput('hex')" data-i18n="update" tabindex="0">Update</button>
 					</li>
 					<li>
-						<strong>RGB:</strong> <span id="rgb-output">rgb(255, 255, 255)</span>
-						<button onclick="copyToClipboard('rgb-output')">Copy</button>
+						<strong>RGB:</strong>
+						<input
+							id="rgb-output"
+							value="rgb(255, 255, 255)"
+							readonly
+							aria-label="RGB color value"
+						/>
+						<button class="copy-btn" data-format="rgb-output" data-i18n="copy" tabindex="0">
+							Copy
+						</button>
+						<button onclick="updateFromInput('rgb')" data-i18n="update" tabindex="0">Update</button>
 					</li>
 					<li>
-						<strong>HSL:</strong> <span id="hsl-output">hsl(0, 0%, 100%)</span>
-						<button onclick="copyToClipboard('hsl-output')">Copy</button>
+						<strong>HSL:</strong>
+						<input id="hsl-output" value="hsl(0, 0%, 100%)" readonly aria-label="HSL color value" />
+						<button class="copy-btn" data-format="hsl-output" data-i18n="copy" tabindex="0">
+							Copy
+						</button>
+						<button onclick="updateFromInput('hsl')" data-i18n="update" tabindex="0">Update</button>
 					</li>
 					<li>
-						<strong>CMYK:</strong> <span id="cmyk-output">cmyk(0%, 0%, 0%, 0%)</span>
-						<button onclick="copyToClipboard('cmyk-output')">Copy</button>
+						<strong>CMYK:</strong>
+						<input
+							id="cmyk-output"
+							value="cmyk(0%, 0%, 0%, 0%)"
+							readonly
+							aria-label="CMYK color value"
+						/>
+						<button class="copy-btn" data-format="cmyk-output" data-i18n="copy" tabindex="0">
+							Copy
+						</button>
+						<button onclick="updateFromInput('cmyk')" data-i18n="update" tabindex="0">
+							Update
+						</button>
 					</li>
 				</ul>
 			</section>
-		</div>
+		</main>
 
 		<script src="script.js"></script>
 	</body>

@@ -17,6 +17,21 @@ body.dark {
 	color: #ffffff;
 }
 
+body.dark .app {
+	background: rgba(30, 30, 30, 0.9);
+}
+
+body.dark button {
+	background-color: #0056b3;
+}
+
+body.dark input,
+body.dark select {
+	background-color: #333;
+	color: #fff;
+	border-color: #555;
+}
+
 .app {
 	max-width: 800px;
 	margin: 20px auto;
@@ -40,10 +55,24 @@ body.dark {
 	border: none;
 	border-radius: 4px;
 	cursor: pointer;
+	transition: background-color 0.3s;
+}
+
+.controls select {
+	background-color: #fff;
+	border: 1px solid #ccc;
 }
 
 .color-picker {
 	margin-bottom: 20px;
+}
+
+#color-input {
+	width: 100%;
+	padding: 8px;
+	margin-bottom: 10px;
+	border: 1px solid #ccc;
+	border-radius: 4px;
 }
 
 #palette {
@@ -54,12 +83,28 @@ body.dark {
 	cursor: crosshair;
 }
 
+#palette:focus {
+	outline: 2px solid #007bff;
+}
+
 .alpha-slider {
 	margin-top: 10px;
+	display: flex;
+	align-items: center;
+}
+
+.alpha-slider label {
+	margin-right: 10px;
+}
+
+#alpha {
+	flex: 1;
 }
 
 .color-preview {
 	margin-bottom: 20px;
+	display: flex;
+	justify-content: center;
 }
 
 #selected-color {
@@ -75,6 +120,20 @@ body.dark {
 
 .conversion-results li {
 	margin-bottom: 10px;
+	display: flex;
+	align-items: center;
+}
+
+.conversion-results strong {
+	width: 60px;
+}
+
+.conversion-results input {
+	flex: 1;
+	padding: 5px;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	margin-right: 10px;
 }
 
 button {
@@ -84,8 +143,17 @@ button {
 	padding: 5px 10px;
 	border-radius: 4px;
 	cursor: pointer;
+	transition: background-color 0.3s;
 }
 
 button:hover {
 	background-color: #0056b3;
+}
+
+button:focus {
+	outline: 2px solid #0056b3;
+}
+
+.copy-btn {
+	margin-right: 5px;
 }

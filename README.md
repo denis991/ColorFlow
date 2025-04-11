@@ -14,7 +14,7 @@ ColorFlow — это приложение для конвертации цвет
 1. Склонируйте репозиторий:
 
    ```bash
-   git clone https://github.com/your-repo/colorflow.git
+   git clone git@github.com:denis991/ColorFlow.git
 
    ```
 
