@@ -184,7 +184,7 @@ body.dark #selected-color:hover {
 }
 
 .conversion-results strong {
-	width: 60px;
+	width: 90px;
 }
 
 .conversion-results input {
@@ -194,4 +194,11 @@ body.dark #selected-color:hover {
 
 .copy-btn {
 	margin-right: 5px;
+}
+
+.color-name-output {
+	min-width: 280px; /* Учитываем длинные названия цветов */
+	background: transparent;
+	border: none;
+	color: inherit;
 }

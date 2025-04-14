@@ -10,6 +10,8 @@
 		<link rel="icon" type="image/png" sizes="32x32" href="image/favicon-32x32.png" />
 		<link rel="icon" type="image/png" sizes="16x16" href="image/favicon-16x16.png" />
 		<link rel="manifest" href="image/site.webmanifest" />
+		<script defer src="script.js"></script>
+		<script defer src="var.js"></script>
 	</head>
 	<body>
 		<main class="app" id="app">
@@ -74,7 +76,12 @@
 				<ul>
 					<li>
 						<strong>HEX:</strong>
-						<input id="hex-output" value="#FFFFFF" aria-label="HEX color value" />
+						<input
+							id="hex-output"
+							value="#FFFFFF"
+							aria-label="HEX color value"
+							class="color-name-output"
+						/>
 						<button class="copy-btn" data-format="hex-output" data-i18n="copy" tabindex="0">
 							Copy
 						</button>
@@ -82,7 +89,12 @@
 					</li>
 					<li>
 						<strong>RGB:</strong>
-						<input id="rgb-output" value="rgb(255, 255, 255)" aria-label="RGB color value" />
+						<input
+							id="rgb-output"
+							value="rgb(255, 255, 255)"
+							aria-label="RGB color value"
+							class="color-name-output"
+						/>
 						<button class="copy-btn" data-format="rgb-output" data-i18n="copy" tabindex="0">
 							Copy
 						</button>
@@ -90,7 +102,12 @@
 					</li>
 					<li>
 						<strong>HSL:</strong>
-						<input id="hsl-output" value="hsl(0, 0%, 100%)" aria-label="HSL color value" />
+						<input
+							id="hsl-output"
+							value="hsl(0, 0%, 100%)"
+							aria-label="HSL color value"
+							class="color-name-output"
+						/>
 						<button class="copy-btn" data-format="hsl-output" data-i18n="copy" tabindex="0">
 							Copy
 						</button>
@@ -98,7 +115,12 @@
 					</li>
 					<li>
 						<strong>CMYK:</strong>
-						<input id="cmyk-output" value="cmyk(0%, 0%, 0%, 0%)" aria-label="CMYK color value" />
+						<input
+							id="cmyk-output"
+							value="cmyk(0%, 0%, 0%, 0%)"
+							aria-label="CMYK color value"
+							class="color-name-output"
+						/>
 						<button class="copy-btn" data-format="cmyk-output" data-i18n="copy" tabindex="0">
 							Copy
 						</button>
@@ -106,10 +128,34 @@
 							Update
 						</button>
 					</li>
+					<!-- ближайший цвет название  -->
+					<li>
+						<strong data-i18n="colorName">Color Name:</strong>
+						<input
+							id="color-name"
+							type="text"
+							readonly
+							value="-"
+							aria-label="Exact color name"
+							class="color-name-output"
+						/>
+						<button class="copy-btn" data-format="color-name" data-i18n="copy">Copy</button>
+					</li>
+					<!-- правильный цвет для этого названия  -->
+					<li>
+						<strong data-i18n="closestColor">Closest Color:</strong>
+						<input
+							id="closest-color"
+							type="text"
+							readonly
+							value="-"
+							aria-label="Closest color name"
+							class="color-name-output"
+						/>
+						<button class="copy-btn" data-format="closest-color" data-i18n="copy">Copy</button>
+					</li>
 				</ul>
 			</section>
 		</main>
-
-		<script defer src="script.js"></script>
 	</body>
 </html>
