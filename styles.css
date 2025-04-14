@@ -193,11 +193,13 @@ body.dark #selected-color:hover {
 }
 
 .copy-btn {
-	margin-right: 5px;
+}
+.update-btn {
+	margin-left: 5px;
 }
 
 .color-name-output {
-	min-width: 280px; /* Учитываем длинные названия цветов */
+	min-width: 200px; /* Учитываем длинные названия цветов */
 	background: transparent;
 	border: none;
 	color: inherit;
@@ -227,4 +229,59 @@ body.dark #selected-color:hover {
 
 .notification.error {
 	background: #f44336;
+}
+@media (max-width: 550px) {
+	html {
+		font-size: 10px; /* Базовое уменьшение для всех элементов */
+	}
+
+	h1 {
+		font-size: 1.5rem; /* 24px → 21px */
+		margin-bottom: 0.5rem;
+	}
+
+	h2 {
+		font-size: 1.25rem; /* 20px → 17.5px */
+	}
+
+	label {
+		font-size: 0.9rem; /* 14px → 12.6px */
+	}
+
+	strong {
+		font-weight: 600; /* Сохраняем жирность при уменьшении */
+	}
+	.conversion-results strong {
+		width: 77px;
+		width: fit-content; /* Современные браузеры */
+		max-width: 100%; /* Защита от переполнения */
+		display: flex;
+		justify-content: flex-start; /* Элементы не растягиваются */
+	}
+	li {
+		display: flex;
+		justify-content: space-between;
+		align-items: baseline;
+	}
+
+	input,
+	.color-name-output {
+		min-width: 100px;
+		font-size: 0.85rem;
+		padding: 0.3rem 0.5rem; /* Уменьшаем отступы */
+		max-width: 120px; /* Фиксируем ширину полей */
+	}
+
+	button {
+		width: max-content; /* Ширина по самому длинному слову */
+		font-size: 0.8rem;
+		padding: 0.8rem 0.5rem; /* Более компактные кнопки */
+		min-width: 60px; /* Фиксированная минимальная ширина */
+	}
+
+	/* Дополнительные оптимизации для контейнеров */
+	.app {
+		margin: 10px;
+		padding: 15px;
+	}
 }
