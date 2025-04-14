@@ -202,3 +202,29 @@ body.dark #selected-color:hover {
 	border: none;
 	color: inherit;
 }
+
+/* Notification System */
+.notification {
+	position: fixed;
+	top: 20px;
+	right: 20px;
+	background: #4caf50;
+	color: white;
+	padding: 15px 25px;
+	border-radius: 4px;
+	box-shadow: 0 3px 6px rgba(0, 0, 0, 0.16);
+	opacity: 0;
+	transform: translateY(-100%);
+	transition: all 0.3s ease;
+	cursor: pointer;
+	z-index: 1000;
+}
+
+.notification.visible {
+	opacity: 1;
+	transform: translateY(0);
+}
+
+.notification.error {
+	background: #f44336;
+}

@@ -30,6 +30,8 @@ const translations = {
 		convertedColors: 'Converted Colors',
 		invalidColor: 'Invalid color format',
 		copied: 'Copied to clipboard!',
+		copySuccess: 'Copied to clipboard!',
+		copyError: 'Copy failed!',
 		colorName: 'Color Name:',
 		closestColor: 'Closest Color:',
 	},
@@ -42,6 +44,8 @@ const translations = {
 		convertedColors: 'Преобразованные цвета',
 		invalidColor: 'Неверный формат цвета',
 		copied: 'Скопировано в буфер обмена!',
+		copySuccess: 'Скопировано!',
+		copyError: 'Ошибка копирования!',
 		colorName: 'Название цвета:',
 		closestColor: 'Ближайший цвет:',
 	},
@@ -54,6 +58,8 @@ const translations = {
 		convertedColors: 'Colores Convertidos',
 		invalidColor: 'Formato de color inválido',
 		copied: '¡Copiado al portapapeles!',
+		copySuccess: 'copiar!',
+		copyError: 'Error de copia!',
 		colorName: 'Nombre del color:',
 		closestColor: 'Color más cercano:',
 	},
@@ -470,7 +476,8 @@ function copyToClipboard(id) {
 	const text = document.getElementById(id).value;
 	navigator.clipboard.writeText(text).then(() => {
 		const lang = languageSwitcher.value;
-		alert(translations[lang].copied);
+		// alert(translations[lang].copied);
+		showNotification(translations[lang].copied);
 	});
 }
 
@@ -623,7 +630,7 @@ const debouncedUpdate = debounce((input) => {
 		updateColor({ r, g, b, a });
 	} catch (error) {
 		const lang = languageSwitcher.value;
-		alert(translations[lang].invalidColor);
+		showNotification(translations[lang].invalidColor);
 	}
 }, 3000);
 
@@ -682,7 +689,7 @@ function updateFromInput(format) {
 		updateColor(newColor);
 	} catch (error) {
 		const lang = languageSwitcher.value;
-		alert(translations[lang].invalidColor);
+		showNotification(translations[lang].invalidColor);
 	}
 }
 
@@ -796,4 +803,29 @@ function getColorName(hex) {
 		}
 	});
 	return { ...closest, isExact: false };
+}
+
+// Notification System
+// showNotification(..., 'error')
+function showNotification(message, type = 'success') {
+	const notification = document.getElementById('notification');
+	notification.className = `notification visible ${type}`;
+	notification.querySelector('.notification-text').textContent = message;
+
+	notification.addEventListener('click', () => hideNotification());
+	setTimeout(hideNotification, 3000);
+}
+
+function hideNotification() {
+	const notification = document.getElementById('notification');
+	notification.classList.remove('visible');
+}
+
+// Обновляем все вызовы alert (пример для copyToClipboard):
+function copyToClipboard(id) {
+	const text = document.getElementById(id).value;
+	navigator.clipboard
+		.writeText(text)
+		.then(() => showNotification(translations[document.documentElement.lang].copySuccess))
+		.catch(() => showNotification(translations[document.documentElement.lang].copyError, 'error'));
 }
